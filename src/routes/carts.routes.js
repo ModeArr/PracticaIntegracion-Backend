@@ -1,8 +1,9 @@
 const { Router } = require("express")
 const path = require("path");
-const pathDB = path.join(`${__dirname}/../cart.json`)
-const CartManager = require("../CartManager");
-const cart = new CartManager(pathDB)
+const pathDB = path.join(`${__dirname}/../dao/cart.json`)
+const CartManager = require("../dao/CartManager");
+const DBCartManager = require("../dao/DBCartManager")
+const cart = new DBCartManager()
 
 const router = Router()
 
@@ -16,7 +17,7 @@ router.post("/", (req, res) => {
 })
 
 router.get("/:cid", (req, res) => {
-    const id = Number(req.params.cid)
+    const id = req.params.cid
     cart.getCartProducts(id).then(result => {
         res.status(200).json(result);
     }).catch(err => {
@@ -26,8 +27,8 @@ router.get("/:cid", (req, res) => {
 })
 
 router.post("/:cid/product/:pid", (req, res) => {
-    const idCart = Number(req.params.cid)
-    const idProduct = Number(req.params.pid)
+    const idCart = req.params.cid
+    const idProduct = req.params.pid
     cart.addProductToCart(idCart, idProduct).then(result => {
         res.status(200).json(result);
     }).catch(err => {

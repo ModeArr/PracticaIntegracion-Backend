@@ -1,11 +1,11 @@
 const socket = io()
 
 socket.on("product created", (product) => {
-    const articleAdd = `<article id="${product?.id}" class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+    const articleAdd = `<article id="${product?._id}" class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
     <div class="relative flex items-end overflow-hidden rounded-xl">
     <img class="h-48 w-full object-contain" src=${product?.thumbnail}/>
     <div class="absolute bottom-3 left-3 inline-flex items-center rounded-lg bg-white p-2 shadow-md">
-        <span class="ml-1 text-sm text-slate-400">Codigo: ${product?.code} </span>
+        <span class="ml-1 text-sm text-slate-400">Id: ${product?._id}</span>
     </div>
     </div>
     <div class="mt-1 p-2">

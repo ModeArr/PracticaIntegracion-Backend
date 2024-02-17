@@ -1,5 +1,5 @@
 {
-  "name": "preentrega4-backend",
+  "name": "practicaintegracion-backend",
   "version": "1.0.0",
   "description": "",
   "main": "./src/app.js",
@@ -16,6 +16,8 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "i": "^0.3.7",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.2",
     "postcss-cli": "^11.0.0",
     "socket.io": "^4.7.4"
   },
