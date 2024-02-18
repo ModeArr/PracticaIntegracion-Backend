@@ -4,6 +4,8 @@ const pathDB = path.join(`${__dirname}/../dao/products.json`)
 const styles = path.join(`${__dirname}/../public/styles/styles.css`)
 const DBProductManager = require("../dao/DBProductManager");
 const products = new DBProductManager()
+const DBMessagesManager = require("../dao/DBMessagesManager");
+const messages = new DBMessagesManager()
 
 const router = Router()
 
@@ -36,7 +38,7 @@ router.get('/realtimeproducts', (req, res) => {
 
 router.get('/chat', (req, res) => {
 
-    products.getProducts().then(result => {
+    messages.getAllMessages().then(result => {
         res.render("chat", {
             title: "Practica integracion proyecto final - Chat en tiempo real",
             products: result

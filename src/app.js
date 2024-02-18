@@ -4,6 +4,7 @@ const path = require("path")
 const productsRoutes = require("./routes/products.routes")
 const cartsRoutes = require("./routes/carts.routes")
 const viewRoutes = require("./routes/views.routes")
+const messagesRoutes = require("./routes/messages.routes")
 const mongoose = require('mongoose');
 
 PORT = 8080
@@ -35,6 +36,7 @@ app.set("io",  io)
 
 app.use(`/${API_PREFIX}/products`, productsRoutes)
 app.use(`/${API_PREFIX}/carts`, cartsRoutes)
+app.use(`/${API_PREFIX}/messages`, messagesRoutes)
 app.use('/', viewRoutes)
 
 
