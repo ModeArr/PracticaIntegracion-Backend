@@ -41,7 +41,7 @@ router.get('/chat', (req, res) => {
     messages.getAllMessages().then(result => {
         res.render("chat", {
             title: "Practica integracion proyecto final - Chat en tiempo real",
-            products: result
+            messages: result
         })
     }).catch(err => {
         console.log(err);

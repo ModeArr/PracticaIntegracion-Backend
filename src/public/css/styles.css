@@ -525,6 +525,9 @@ video {
     max-width: 1536px;
   }
 }
+.invisible {
+  visibility: hidden;
+}
 .absolute {
   position: absolute;
 }

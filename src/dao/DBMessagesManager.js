@@ -11,11 +11,11 @@ class DBMessagesManager {
         }
     }
 
-    async addMessage(user, message){
+    async addMessage(message, user){
         try {
-            const messageAdd = await cartsModel.create({user: user, message: message})
+            const messageAdd = await messagesModel.create({user: user, message: message})
             .then((res) => {
-                return `Se creo un nuevo mensaje con id ${res._id}` 
+                return res 
             })
             .catch((error) => {
                 throw Error(error)

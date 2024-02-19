@@ -18,10 +18,11 @@ router.post("/", (req, res) => {
     const newMessage = req.body
     const io = req.app.get('io');
 
-    messages.addMessage(newMessage.user, 
-        newMessage.description
+    messages.addMessage(newMessage.message, 
+        newMessage.user
         )
         .then(result => {
+            console.log(result)
             io.emit('message sent', result);
             return res.status(200).json(`Se subio correctamente el mensaje`);
         }).catch(err => {

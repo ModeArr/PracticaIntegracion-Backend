@@ -1,10 +1,26 @@
 const socket = io()
+const contactForm = document.getElementById('message-form');
+const userInput = document.getElementById('userInput')
 
 //SocketIO
+socket.on("message sent", (message) => {
+    const articleAdd = `<div class="flex mb-2">
+    <div class="rounded py-2 px-3" style="background-color: #F2F2F2">
+        <p class="text-sm text-purple-600">
+            ${message.user}
+        </p>
+        <p class="text-sm mt-1">
+            ${message.message}
+        </p>
+    </div>
+</div>`
+    
+document.getElementById("messagesView")
+.insertAdjacentHTML('beforeend', articleAdd)
+})
+
 
 //SweetAlert
-let userCon;
-
 Swal.fire({
     title: "Identificate para ingresar",
     input: "text",
@@ -14,38 +30,36 @@ Swal.fire({
     },
     allowOutsideClick: false
   }).then((result) => {
-    user = result.value
-  });
+    userInput.value = result.value
+  })
 
 
 //FORM
 const apiPost = 'http://localhost:8080/api/messages';
 
-const contactForm = document.getElementById('message-form');
-const messagesView = document.getElementById('messagesView');
-
-contactForm.addEventListener('submit', function (event) {
+contactForm.addEventListener('submit', async function (event) {
   event.preventDefault();
-
-  const formData = new FormData(contactForm);
-  formData.append(user, )
-
-  const requestOptions = {
-    method: 'POST',
-    body: formData,
-  };
-
-  fetch(apiUrl, requestOptions)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+  const userInput = document.getElementById('userInput')
+  const messageInput = document.getElementById('messageInput')
+  console.log(messageInput.value)
+  console.log(userInput)
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: messageInput.value,
+          user: userInput.value
+        })
       }
-      return response.text();
-    })
-    .then(data => {
-      responseMessage.textContent = data;
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-});
+
+      await fetch(apiPost, requestOptions)
+      .then((res) => {
+        console.log(res)
+        messageInput.value = ""
+      })
+      .catch(error => {
+        throw new Error(error)
+      })
+})
