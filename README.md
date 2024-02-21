@@ -12,7 +12,7 @@
 
 #### Practica Integradora Proyecto Final
 
-#### El proyecto pide implmentar handlebars para front asi como Socket.io para poder mostrar una lista de productos en tiempo real mediante websockets. Al proyecto se le agregaron vistas las cuiales fueroni msotradas con routes de endpoints para rederizarlas, se implemento socket.io sobre las mismos endpoints que se tenian para podre emitir de ahi el agregdo y el borrado de un producto permitiendo tener comunicacion en tiempo real de cuandos se borra o agrega un producto en /realtimeproducts 
+#### El proyecto de integración pide que se realize la implementacion de MongoDB en nuestro proyecto que teniamois avanzado en el cual se utiliza HandleBars para Frontend, Node ExpressJs como backend y SocketIO para WebSocket.Tambien se pide implementar un chat usando SocketIO. Esta implementacion nos permitira mediante practica aprender a implementara MongoDB y Moongoe; así como usar WebSockets.
 
 ---
 
@@ -33,6 +33,61 @@
 ```
 ## Cosas a realizadas
 
+### Conectar Mongoose con MongoDB Atlas
+#### Se uso en app.js mongoose.connect para por medio de un url proporcionado por el servicio web de MongoDB Atlas conetarnos a las colecciones de los servicios que vamos usar, por medio dbName se especifica la base de datos en este caso "ecommerce" 
+
+### Creacion de modelo de datos Mongoose
+#### En la carpeta dao se agrego la carpeta "models" en ella se agregaron los modelos de la 3 colecciones que se van a usar para el proyecto (products, messages y carts), ahi mismo se indica la coleccion a la que va dirigida en la base de datos.
+
+## Products DB Manager
+### getProducts()
+#### Para esta funcion se uso la funcion .find({}) sobre el products model para recibir todos los documentos de la coleccion, y luego .lean() para recibir un objeto JSON directamente.
+
+### AddProduct()
+#### En esta funcion para agregar un producto a la base de datos se dejaron las validaciones ya hechas, solo se modifico la parte de codeDuplicated para encontarar mediante .findOne sobre la DB para encontar algun otro producto con ese codigo. Ya validado los datos se crea el objeto y se manda mediante un .create({producto})
+
+### getProductById(id)
+#### Se realizo un simple .find({_id: id}) sobre el modelo para encontrarlo mediante el id.
+
+### updateProduct(id, field, edit)
+#### Se realizaron las mismas validacionas ahora con un switch, luego se hizo un .findByIdAndUpdate() el cual busca un id unico y luego lo actualiza mediante pasar el objeto de propiedades a editar en este caso el "field" el campo a editar y el "edit" el edit de la propiedad.
+
+### deleteProduct(id)
+#### Para este funcion se realizo un .findByIdAndDelete() para encontrar el id proporcionado y borrarlo de la base de dato.
+
+## Carts DB Manager
+
+### getCarts()
+#### Se realizo un .find({}) sobre el modelo de cartModel para obtener todos los articulos, tambien se realizo un .lean() para obtener un objeto JSON
+
+### addCart()
+#### Se realizo un .create({products[]}) para agregar un nuevo cart a la coleccion
+
+### getCartProducts(id)
+#### Se ralizo un .findById(id) para enocntrar el carrito deseado y luego regresar sus productos, se uso .lean para regresar un JSON limpio.
+
+### addProductToCart(idCart, idProduct)
+#### Se realizo un findById(idCart) en cart esto para poder verificar que el carrito si existe. Se tambien se guardo en "productExist" .find() donde se busque el idCart y un $elemMatch para checar si el id del producto es igual a alguno dentro de products. Se checa si productExist no existe para hacer un findByIdAndUpdate() y dentro se hace un $push de objeto del producto con uno de quantity y si este no existe se hace findOneAndUpdate() donde buscamos un idCart que tenga dentro de Products el idProduct y usamos $inc sobre el produicto seleccionado.
+
+## Messages DB Manager
+
+### getAllMessages()
+#### Se realizo un .find({}) para obtener todos los documentos de la coleccion y luego se ralizo .lean() para recibirlos como JSON
+
+### addMessage(message, user)
+#### Se realizo un .create() para crear un documento con el mesaje y el usuario en la coleccion de messages
+
+## Messages Routes
+
+### router.get("/")
+#### Se realizo un getAllMessages() y se regreso el json de los mensajes
+
+### router.post("/")
+####
+
+---
+## Cosas ya hechas 
+
 ### Agrego Handlebars
 #### Se agrego Handlebars meidante el handlebars.engine() con la libreria express-handlebars, tambien se agregaron las viwews y el layout Index y realtimeproducts. Se hizo una route para podre mandar hacer render de las dos vistas y asi mismo pedir ProductManager para poder obtener los productos y que estos endpoints los retornen
 
@@ -50,10 +105,6 @@
 
 ### EXTRA: Se agrego Tailwind
 #### Tailwind es una de las mejor es librerias para hace un front simple en css sin necesidad de hacer muchos  estilos y obteniendo resultados muy buenos con poco desarollo y en lo personal ya me acostumbre mucho a usarlo no importa donde.
-
-
----
-## Cosas ya hechas 
 
 ## Products
 ### getProducts()

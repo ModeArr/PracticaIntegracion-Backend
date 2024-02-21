@@ -114,7 +114,9 @@ class DBProductManager {
                         break
                     }
                 case "code":
-                    let codeDuplicated = products.find(e => e.code === edit)
+                    let codeDuplicated = await productsModel.findOne({
+                        code: edit
+                       })
                     if (!edit.trim()){
                         throw new Error('Ingresa un codigo de producto correcto')
                     } else if (codeDuplicated){
